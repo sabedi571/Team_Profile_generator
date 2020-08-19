@@ -1,5 +1,8 @@
 const path = require("path");
 const fs = require("fs");
+const app = require("../app");
+const employee = require("./Employee");
+
 
 const templatesDir = path.resolve(__dirname, "../templates");
 
@@ -19,7 +22,15 @@ const render = employees => {
     .map(intern => renderIntern(intern))
   );
 
-  return renderMain(html.join(""));
+  const team = renderMain(html.join(""));
+  fs.writeFile('./output/team.html', team, (err) => {
+    
+    if (err) {
+      console.log(err);
+    }
+
+    return;
+  })
 
 };
 

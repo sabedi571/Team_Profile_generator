@@ -6,7 +6,7 @@ const path = require("path");
 const fs = require("fs");
 
 const outputPath = path.resolve(__dirname, "output", "team.html");
-///const outputPath = path.join(OUTPUT_DIR, "team.html");
+
 
 const render = require("./lib/htmlRenderer");
 
@@ -20,7 +20,7 @@ let school;
 
 const employees = [];
 
-const menu = () => {
+const pickOne = () => {
     inquirer.prompt([
         {
             type: 'list',
@@ -35,13 +35,13 @@ const menu = () => {
         role = workers['Employee role'];
         console.log(role);
 
-        subMenu();
+        pickTwo();
     })
 }
 
 /// use the switch statement to select one of many codes to be executed
 
-const subMenu = () => {
+const pickTwo = () => {
     switch(role) {
         case 'Engineer':
             inquirer.prompt([
@@ -52,9 +52,9 @@ const subMenu = () => {
                 }
             ]).then(userName => {
                 console.log(userName);
-                github = userName["Github Username"];
+                github = userName["GitHub Username"];
                 console.log(github);
-                subMenu2();
+                pickThree();
             })
 
             break;
@@ -67,12 +67,12 @@ const subMenu = () => {
                     name: 'Office Number',
                     message: "What is the manager's phone number?"
                 }
-            ]).then(officeNumber => {
-                console.log(officeNumber);
-                number = officeNumber["Office Number"];
+            ]).then(office => {
+                console.log(office);
+                number = office["Office Number"];
                 console.log(number);
-                subMenu2();
-                })
+                pickThree();
+            })
         
             break;
 
@@ -85,10 +85,10 @@ const subMenu = () => {
                 }
             ]).then(sponsor => {
                 console.log(sponsor);
-                school = ["Github Username"];
+                school = sponsor["School Name"];
                 console.log(school);
-                subMenu2();
-                })
+                pickThree();
+            })
             
             break;    
 
@@ -102,7 +102,7 @@ const subMenu = () => {
     }
 }
 
-const subMenu2 = () => {
+const pickThree = () => {
     inquirer.prompt([
         {
             type: 'input',
@@ -132,11 +132,11 @@ const subMenu2 = () => {
         email = answers['Employee Email']
         console.log(email);
 
-        subMenu3();
+        pickFour();
     })
 }
 
-const subMenu3 = () => {
+const pickFour = () => {
 
     switch(role) {
 
@@ -144,14 +144,14 @@ const subMenu3 = () => {
 
             employees.push(new Engineer(name, id, email, github));
 
-            menu();
+            pickOne();
             break;
 
         case 'Intern':
             
             employees.push(new Intern(name, id, email, school));
 
-            menu();
+            pickOne();
             break;
 
 
@@ -159,7 +159,7 @@ const subMenu3 = () => {
             
             employees.push(new Manager(name, id, email, school));
     
-            menu();
+            pickOne();
             break;    
 
 
@@ -167,7 +167,7 @@ const subMenu3 = () => {
     }
 }
 
-menu();
+pickOne();
 module.exports = employees;
 
 
